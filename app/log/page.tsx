@@ -1,5 +1,11 @@
-const Log = () => {
-  return <div>Log</div>;
+import Logs from "@/components/Logs";
+
+const LogPage = () => {
+  return (
+    <div>
+      <Logs />
+    </div>
+  );
 };
 
-export default Log;
+export default LogPage;
