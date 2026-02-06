@@ -28,17 +28,15 @@ export type AggregateLog = {
 
 export type LogAvgAggregateOutputType = {
   id: number | null
-  userId: number | null
 }
 
 export type LogSumAggregateOutputType = {
   id: number | null
-  userId: number | null
 }
 
 export type LogMinAggregateOutputType = {
   id: number | null
-  userId: number | null
+  userId: string | null
   date: Date | null
   notes: string | null
   location: string | null
@@ -49,7 +47,7 @@ export type LogMinAggregateOutputType = {
 
 export type LogMaxAggregateOutputType = {
   id: number | null
-  userId: number | null
+  userId: string | null
   date: Date | null
   notes: string | null
   location: string | null
@@ -74,12 +72,10 @@ export type LogCountAggregateOutputType = {
 
 export type LogAvgAggregateInputType = {
   id?: true
-  userId?: true
 }
 
 export type LogSumAggregateInputType = {
   id?: true
-  userId?: true
 }
 
 export type LogMinAggregateInputType = {
@@ -205,7 +201,7 @@ export type LogGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
 
 export type LogGroupByOutputType = {
   id: number
-  userId: number
+  userId: string
   date: Date
   notes: string | null
   location: string | null
@@ -240,7 +236,7 @@ export type LogWhereInput = {
   OR?: Prisma.LogWhereInput[]
   NOT?: Prisma.LogWhereInput | Prisma.LogWhereInput[]
   id?: Prisma.IntFilter<"Log"> | number
-  userId?: Prisma.IntFilter<"Log"> | number
+  userId?: Prisma.StringFilter<"Log"> | string
   date?: Prisma.DateTimeFilter<"Log"> | Date | string
   notes?: Prisma.StringNullableFilter<"Log"> | string | null
   location?: Prisma.StringNullableFilter<"Log"> | string | null
@@ -269,7 +265,7 @@ export type LogWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.LogWhereInput | Prisma.LogWhereInput[]
   OR?: Prisma.LogWhereInput[]
   NOT?: Prisma.LogWhereInput | Prisma.LogWhereInput[]
-  userId?: Prisma.IntFilter<"Log"> | number
+  userId?: Prisma.StringFilter<"Log"> | string
   date?: Prisma.DateTimeFilter<"Log"> | Date | string
   notes?: Prisma.StringNullableFilter<"Log"> | string | null
   location?: Prisma.StringNullableFilter<"Log"> | string | null
@@ -302,7 +298,7 @@ export type LogScalarWhereWithAggregatesInput = {
   OR?: Prisma.LogScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LogScalarWhereWithAggregatesInput | Prisma.LogScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Log"> | number
-  userId?: Prisma.IntWithAggregatesFilter<"Log"> | number
+  userId?: Prisma.StringWithAggregatesFilter<"Log"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"Log"> | Date | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"Log"> | string | null
   location?: Prisma.StringNullableWithAggregatesFilter<"Log"> | string | null
@@ -325,7 +321,7 @@ export type LogCreateInput = {
 
 export type LogUncheckedCreateInput = {
   id?: number
-  userId: number
+  userId: string
   date: Date | string
   notes?: string | null
   location?: string | null
@@ -348,7 +344,7 @@ export type LogUpdateInput = {
 
 export type LogUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -360,7 +356,7 @@ export type LogUncheckedUpdateInput = {
 
 export type LogCreateManyInput = {
   id?: number
-  userId: number
+  userId: string
   date: Date | string
   notes?: string | null
   location?: string | null
@@ -382,7 +378,7 @@ export type LogUpdateManyMutationInput = {
 
 export type LogUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -424,7 +420,6 @@ export type LogCountOrderByAggregateInput = {
 
 export type LogAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
 export type LogMaxOrderByAggregateInput = {
@@ -451,7 +446,6 @@ export type LogMinOrderByAggregateInput = {
 
 export type LogSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  userId?: Prisma.SortOrder
 }
 
 export type LogCreateNestedManyWithoutUserInput = {
@@ -500,13 +494,17 @@ export type LogCreatephotoURLInput = {
   set: string[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type LogUpdatephotoURLInput = {
   set?: string[]
   push?: string | string[]
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type LogCreateWithoutUserInput = {
@@ -561,7 +559,7 @@ export type LogScalarWhereInput = {
   OR?: Prisma.LogScalarWhereInput[]
   NOT?: Prisma.LogScalarWhereInput | Prisma.LogScalarWhereInput[]
   id?: Prisma.IntFilter<"Log"> | number
-  userId?: Prisma.IntFilter<"Log"> | number
+  userId?: Prisma.StringFilter<"Log"> | string
   date?: Prisma.DateTimeFilter<"Log"> | Date | string
   notes?: Prisma.StringNullableFilter<"Log"> | string | null
   location?: Prisma.StringNullableFilter<"Log"> | string | null
@@ -685,7 +683,7 @@ export type $LogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    userId: number
+    userId: string
     date: Date
     notes: string | null
     location: string | null
@@ -1118,7 +1116,7 @@ export interface Prisma__LogClient<T, Null = never, ExtArgs extends runtime.Type
  */
 export interface LogFieldRefs {
   readonly id: Prisma.FieldRef<"Log", 'Int'>
-  readonly userId: Prisma.FieldRef<"Log", 'Int'>
+  readonly userId: Prisma.FieldRef<"Log", 'String'>
   readonly date: Prisma.FieldRef<"Log", 'DateTime'>
   readonly notes: Prisma.FieldRef<"Log", 'String'>
   readonly location: Prisma.FieldRef<"Log", 'String'>
