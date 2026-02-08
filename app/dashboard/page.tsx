@@ -19,9 +19,17 @@ export default function DashboardPage() {
     }, [isPending, session, router]);
 
     if (isPending)
-        return <p className="text-center mt-8 text-white">Loading...</p>;
+        return (
+            <main className="max-w-md h-screen flex items-center justify-center flex-col mx-auto p-6 space-y-4" >
+                <p className="text-center mt-8 text-white">Loading...</p>
+            </main >
+        )
+
     if (!session?.user)
-        return <p className="text-center mt-8 text-white">Redirecting...</p>;
+        return (
+            <main className="max-w-md h-screen flex items-center justify-center flex-col mx-auto p-6 space-y-4" >
+                <p className="text-center mt-8 text-white">Redirecting...</p>
+            </main>);
 
     const { user } = session;
 
