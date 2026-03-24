@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────
+// APP MODELS
+// ─────────────────────────────────────────────
+
+model Log {
+  id            String     @id @default(cuid())
+  date          DateTime
+  location      String?
+  // Visibility range in metres (e.g. 5–7m stored as min: 5, max: 7)
+  visibilityMin Int?
+  visibilityMax Int?
+  notes         String?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  sightings     Sighting[]
+  photos        Photo[]
+}
+
+// Join table between Log and Species (many-to-many).
+// One row = one species spotted on one dive.
+model Sighting {
+  id        String  @id @default(cuid())
+  logId     String
+  log       Log     @relation(fields: [logId], references: [id], onDelete: Cascade)
+  speciesId String
+  species   Species @relation(fields: [speciesId], references: [id])
+  notes     String?
+  count     Int?
+
+  @@index([logId])
+  @@index([speciesId])
+}
+
+// Global reference table — shared across all users.
+// Seeded with common marine species.
+model Species {
+  id             String     @id @default(cuid())
+  commonName     String     @unique
+  scientificName String?
+  description    String?
+  sightings      Sighting[]
+}
+
+model Photo {
+  id        String   @id @default(cuid())
+  logId     String
+  log       Log      @relation(fields: [logId], references: [id], onDelete: Cascade)
+  url       String
+  caption   String?
+  createdAt DateTime @default(now())
+
+  @@index([logId])
+}
