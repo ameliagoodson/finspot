@@ -16,6 +16,8 @@ datasource db {
 
 model Log {
   id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   date          DateTime
   location      String?
   // Visibility range in metres (e.g. 5–7m stored as min: 5, max: 7)
@@ -26,6 +28,8 @@ model Log {
   updatedAt     DateTime   @updatedAt
   sightings     Sighting[]
   photos        Photo[]
+
+  @@index([userId])
 }
 
 // Join table between Log and Species (many-to-many).
@@ -62,4 +66,59 @@ model Photo {
   createdAt DateTime @default(now())
 
   @@index([logId])
+}
+
+// ─────────────────────────────────────────────
+// AUTH MODELS (Better Auth)
+// ─────────────────────────────────────────────
+
+model User {
+  id            String    @id
+  name          String
+  email         String    @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+  logs          Log[]
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime
+  updatedAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Account {
+  id                    String    @id
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?
+  refreshToken          String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
 }
