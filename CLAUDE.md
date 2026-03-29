@@ -46,6 +46,7 @@ When choosing whether to add something, ask: "Would a professional team use this
 - If unsure whether guidance is current, say so and ask the user to find the relevant docs page
 - Never rely on training knowledge alone for fast-moving tools (Prisma, Next.js, Better Auth, shadcn, etc.)
 - When the user links to a docs page, treat it as the source of truth over anything else
+- Context7 MCP is configured globally — it will automatically fetch live docs for any library
 
 ### 🏭 Production quality by default
 
