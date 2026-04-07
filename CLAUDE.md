@@ -8,6 +8,20 @@ Goal: learn full-stack concepts properly, not just ship features.
 ## Guiding Principle
 
 When choosing whether to add something, ask: "Would a professional team use this, and would understanding it help in an interview?" If yes, add it — even if it's not strictly necessary for a project this size. This is a learning project first, portfolio second.
+## Who I Am & Why This Matters
+- Frontend developer with strong frontend skills, currently doing full-stack work
+- Building FinSpot to deliberately strengthen backend and full-stack knowledge
+- Target: land a full-stack role at ~$130k AUD — need to hold my own in a 90-minute concept-heavy interview
+- I learn best by doing. I want to understand and explain every decision, not just have AI generate code
+- Key interview topics I need to be strong on: schema design, relationships, migrations, auth, CRUD, API design, system design trade-offs, server vs client components
+- This is primarily a learning vehicle, secondarily a portfolio piece
+
+## Teaching Focus
+When explaining concepts, frame them in terms of:
+- "How would you explain this in an interview?"
+- "Why did we choose this over the alternatives?"
+- "What would a senior engineer say about this decision?"
+- Connect backend concepts to frontend analogues where possible (I already know the frontend well)
 
 ## Hard Rules
 
