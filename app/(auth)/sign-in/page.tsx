@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 
 import { useRouter } from "next/navigation";
@@ -14,12 +15,12 @@ import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
     setLoading(true);
@@ -27,11 +28,11 @@ export default function SignUpPage() {
     const formData = new FormData(e.currentTarget);
 
     try {
-      const res = await authClient.signUp.email({
-        name: formData.get("name") as string,
+      const res = await authClient.signIn.email({
         email: formData.get("email") as string,
         password: formData.get("password") as string,
       });
+
       if (res.error) {
         setError(res.error.message || "Something went wrong.");
       } else {
@@ -40,25 +41,20 @@ export default function SignUpPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">
       <div className="flex w-full max-w-sm flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold">Create an account</h1>
+          <h1 className="text-2xl font-bold">Welcome back</h1>
           <p className="text-muted-foreground text-sm">
-            Enter your details to get started
+            Sign in to your account
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="name">Name</FieldLabel>
-              <Input id="name" name="name" required />
-            </Field>
-
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input id="email" name="email" type="email" required />
@@ -66,14 +62,7 @@ export default function SignUpPage() {
 
             <Field>
               <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Min. 8 characters"
-                minLength={8}
-                required
-              />
+              <Input id="password" name="password" type="password" required />
             </Field>
           </FieldGroup>
 
@@ -81,7 +70,7 @@ export default function SignUpPage() {
 
           <Button type="submit" className="w-full" disabled={loading}>
             {loading && <Spinner data-icon="inline-start" />}
-            {loading ? "Creating account..." : "Sign up"}
+            {loading ? "Signing in..." : "Sign in"}
           </Button>
         </form>
       </div>
