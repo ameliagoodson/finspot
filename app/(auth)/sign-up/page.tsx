@@ -4,14 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
@@ -22,50 +16,58 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
 
     const formData = new FormData(e.currentTarget);
 
     try {
-      const res = await authClient.signUp.email({
-        name: formData.get("name") as string,
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
-      });
-      if (res.error) {
-        setError(res.error.message || "Something went wrong.");
-      } else {
-        router.push("/dashboard");
-      }
+      const res = await authClient.signUp.email(
+        {
+          name: formData.get("name") as string,
+          email: formData.get("email") as string,
+          password: formData.get("password") as string,
+          callbackURL: "/dashboard",
+        },
+        {
+          onRequest: (context) => {
+            setLoading(true);
+          },
+          onSuccess: (context) => {
+            router.push("/dashboard");
+          },
+          onError: (context) => {
+            setError(context.error.message || "Something went wrong.");
+          },
+        }
+      );
     } finally {
       setLoading(false);
     }
-  };
 
-  return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <div className="flex w-full max-w-sm flex-col gap-6">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl font-bold">Create an account</h1>
-          <p className="text-muted-foreground text-sm">
-            Enter your details to get started
-          </p>
-        </div>
+    return (
+      <main className="flex min-h-screen items-center justify-center p-6">
+        <div className="w-full max-w-sm space-y-6">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold">Create an account</h1>
+            <p className="text-muted-foreground text-sm">
+              Enter your details to get started
+            </p>
+          </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="name">Name</FieldLabel>
+          {error && <p className="text-destructive text-sm">{error}</p>}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1">
+              <Label htmlFor="name">Name</Label>
               <Input id="name" name="name" required />
-            </Field>
+            </div>
 
-            <Field>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+            <div className="space-y-1">
+              <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" required />
-            </Field>
+            </div>
 
-            <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
+            <div className="space-y-1">
+              <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 name="password"
@@ -74,17 +76,14 @@ export default function SignUpPage() {
                 minLength={8}
                 required
               />
-            </Field>
-          </FieldGroup>
+            </div>
 
-          {error && <FieldError>{error}</FieldError>}
-
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading && <Spinner data-icon="inline-start" />}
-            {loading ? "Creating account..." : "Sign up"}
-          </Button>
-        </form>
-      </div>
-    </main>
-  );
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Creating account" : "Sign up "}
+            </Button>
+          </form>
+        </div>
+      </main>
+    );
+  };
 }
