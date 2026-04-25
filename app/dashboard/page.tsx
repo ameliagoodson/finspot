@@ -9,7 +9,6 @@ export default async function DashboardPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  console.log("session:", session);
   if (!session) {
     redirect("/sign-in");
   }
@@ -23,7 +22,7 @@ export default async function DashboardPage() {
             Welcome back, {session.user?.name || "User"}
           </p>
         </div>
-
+        {/* <div>{users}</div> */}
         <div className="flex flex-col gap-1">
           <p className="text-sm font-medium">Email</p>
           <p className="text-muted-foreground text-sm">{session.user?.email}</p>

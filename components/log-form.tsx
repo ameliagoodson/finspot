@@ -1,13 +1,22 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
+import { addLog } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export function LogForm() {
+  const router = useRouter();
+
+  const handleSubmit = async (formData: FormData) => {
+    await addLog(formData);
+    router.back();
+  };
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4" action={handleSubmit}>
       <div className="space-y-1">
         <Label htmlFor="date">Date</Label>
         <Input id="date" name="date" type="date" required />
