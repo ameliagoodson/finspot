@@ -29,6 +29,7 @@ export default async function DashboardPage() {
           <p className="text-muted-foreground text-sm">{session.user?.email}</p>
         </div>
         <Link href="/logs">Logs</Link>
+        <Link href="/logs/new">NEW LOG</Link>
         <SignOutButton />
       </div>
     </main>
